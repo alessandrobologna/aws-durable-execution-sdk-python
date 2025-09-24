@@ -113,6 +113,12 @@ class CheckpointedResult:
             return False
         return op.status is OperationStatus.TIMED_OUT
 
+    def is_replay_children(self) -> bool:
+        op = self.operation
+        if not op:
+            return False
+        return op.context_details.replay_children if op.context_details else False
+
     def raise_callable_error(self) -> None:
         if self.error is None:
             msg: str = "Attempted to throw exception, but no ErrorObject exists on the Checkpoint Operation."
